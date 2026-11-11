@@ -9,7 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Unzip project
-        run: unzip -q -o VRA_Project.zip -d project
+        run: |
+          ls -la
+          ZIP=$(find . -maxdepth 2 -type f -iname "*project*" -not -path "./.git/*" -not -path "./.github/*" -not -name "*.yml" | head -n 1)
+          echo "Using: $ZIP"
+          unzip -q -o "$ZIP" -d project
+          ls project
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
